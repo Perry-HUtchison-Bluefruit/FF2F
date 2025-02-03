@@ -32,6 +32,8 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 
 ## Example output file
 
+   ```sh
+
 Scenarios
 Scenario: scenario 1
 Scenario: scenario 2
