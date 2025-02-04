@@ -127,14 +127,20 @@ def check_formatting(file_path):
 
 
 def correct_syntax(lines):
-    valid_keywords = ['Feature:', 'Scenario:', 'Scenario Outline:', 'Developer Task:', 'Given', 'When', 'Then', 'And', 'Examples', '|']
+    valid_keywords = ['Feature:', 'Scenario:', 'Given', 'When', 'Then', 'And', 'But']
     corrected_lines = []
     for line in lines:
-        line_stripped = line.lstrip()
-        closest_matches = difflib.get_close_matches(line_stripped.split()[0], valid_keywords, n=1, cutoff=0.8)
-        if closest_matches:
-            corrected_line = line.replace(line_stripped.split()[0], closest_matches[0])
-            corrected_lines.append(corrected_line)
+        line_stripped = line.strip()
+        if not line_stripped:
+            corrected_lines.append(line)
+            continue
+        if line_stripped.split()[0] not in valid_keywords:
+            closest_matches = difflib.get_close_matches(line_stripped.split()[0], valid_keywords, n=1, cutoff=0.8)
+            if closest_matches:
+                corrected_line = closest_matches[0] + line_stripped[len(line_stripped.split()[0]):]
+                corrected_lines.append(corrected_line)
+            else:
+                corrected_lines.append(line)
         else:
             corrected_lines.append(line)
     return corrected_lines
