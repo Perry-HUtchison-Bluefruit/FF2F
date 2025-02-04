@@ -8,7 +8,8 @@ def parse_feature_file(file_path):
     with open(file_path, 'r') as file:
         lines = file.readlines()
 
-    features = extract_features(lines)
+    corrected_lines = correct_syntax(lines)
+    features = extract_features(corrected_lines)
 
     return features
 
@@ -29,6 +30,7 @@ def process_scenario_line(features, current_feature, current_scenario, line):
 
 def handle_invalid_syntax(line_number, line):
     print(f"Invalid Gherkin syntax at line {line_number}: {line}")
+    return correct_syntax([line])[0]
 
 
 def extract_features(data):
@@ -49,7 +51,10 @@ def extract_features(data):
         elif any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', 'Examples', '|']):
             features = process_scenario_line(features, current_feature, current_scenario, line)
         elif line:
-            handle_invalid_syntax(line_number, line)
+            corrected_line = handle_invalid_syntax(line_number, line)
+            if corrected_line:
+                data[line_number - 1] = corrected_line
+                return extract_features(data)
     return features
 
 
@@ -119,6 +124,20 @@ def check_formatting(file_path):
         return "\n".join(errors)
     else:
         return "Formatting Ok"
+
+
+def correct_syntax(lines):
+    corrected_lines = []
+    for line in lines:
+        if line.startswith('Sceanario:'):
+            corrected_lines.append(line.replace('Sceanario:', 'Scenario:'))
+        elif line.startswith('Giben'):
+            corrected_lines.append(line.replace('Giben', 'Given'))
+        elif line.startswith('1Scenario:'):
+            corrected_lines.append(line.replace('1Scenario:', 'Scenario:'))
+        else:
+            corrected_lines.append(line)
+    return corrected_lines
 
 
 def main():

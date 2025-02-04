@@ -92,3 +92,13 @@ Then step 35
         When step 40
         Then step 41
         And step 42
+
+Scenario: scenario 14
+Given step 43
+When step 44
+Then step 45
+
+Scenario: scenario 15
+Given step 46
+When step 47
+Then step 48
