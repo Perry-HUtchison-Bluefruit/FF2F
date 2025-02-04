@@ -2,7 +2,7 @@ import csv
 import sys
 import os
 from collections import OrderedDict
-
+import difflib
 
 def parse_feature_file(file_path):
     with open(file_path, 'r') as file:
@@ -127,14 +127,14 @@ def check_formatting(file_path):
 
 
 def correct_syntax(lines):
+    valid_keywords = ['Feature:', 'Scenario:', 'Scenario Outline:', 'Developer Task:', 'Given', 'When', 'Then', 'And', 'Examples', '|']
     corrected_lines = []
     for line in lines:
-        if line.startswith('Sceanario:'):
-            corrected_lines.append(line.replace('Sceanario:', 'Scenario:'))
-        elif line.startswith('Giben'):
-            corrected_lines.append(line.replace('Giben', 'Given'))
-        elif line.startswith('1Scenario:'):
-            corrected_lines.append(line.replace('1Scenario:', 'Scenario:'))
+        line_stripped = line.lstrip()
+        closest_matches = difflib.get_close_matches(line_stripped.split()[0], valid_keywords, n=1, cutoff=0.8)
+        if closest_matches:
+            corrected_line = line.replace(line_stripped.split()[0], closest_matches[0])
+            corrected_lines.append(corrected_line)
         else:
             corrected_lines.append(line)
     return corrected_lines
