@@ -2,6 +2,7 @@ import csv
 import sys
 import os
 from collections import OrderedDict
+from difflib import get_close_matches
 
 
 def parse_feature_file(file_path):
@@ -27,8 +28,18 @@ def process_scenario_line(features, current_feature, current_scenario, line):
     return features
 
 
-def handle_invalid_syntax(line_number, line):
+def handle_invalid_syntax(line_number, line, features, current_feature, current_scenario):
     print(f"Invalid Gherkin syntax at line {line_number}: {line}")
+    closest_match = find_closest_match(line)
+    if closest_match:
+        features.append([current_feature, current_scenario, closest_match])
+    return features
+
+
+def find_closest_match(line):
+    keywords = ['Feature:', 'Scenario:', 'Scenario Outline:', 'Developer Task:', 'Given', 'When', 'Then', 'And', 'Examples', '|']
+    closest_matches = get_close_matches(line, keywords)
+    return closest_matches[0] if closest_matches else None
 
 
 def extract_features(data):
@@ -49,7 +60,7 @@ def extract_features(data):
         elif any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', 'Examples', '|']):
             features = process_scenario_line(features, current_feature, current_scenario, line)
         elif line:
-            handle_invalid_syntax(line_number, line)
+            features = handle_invalid_syntax(line_number, line, features, current_feature, current_scenario)
     return features
 
 
