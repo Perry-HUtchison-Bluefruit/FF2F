@@ -13,6 +13,7 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 - Includes scenarios and developer tasks even if they don't have steps.
 - Generates a CSV file with the extracted data.
 - Checks the formatting of the feature file and reports any formatting errors.
+- Corrects common syntax errors in the Gherkin file before appending to the CSV.
 
 ## Usage
 
@@ -38,6 +39,8 @@ Scenarios
 Scenario: scenario 1
 Scenario: scenario 2
 Scenario: scenario 3
+Scenario: scenario 12
+Scenario: scenario 13
 Feature,Test Case/Scenario,Test Step
 feature 1,,
 ,,
@@ -55,9 +58,15 @@ feature 1,,
 ,,Given step 7
 ,,When step 8
 ,,Then step 9
+,,
+,Scenario: scenario 12,
+,,Given step 36
+,,When step 37
+,,Then step 38
+,,
+,Scenario: scenario 13,
+,,Given step 39
 ,,When step 40
 ,,Then step 41
 ,,And step 42
 ,,
-
- 
