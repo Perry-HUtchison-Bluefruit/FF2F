@@ -134,27 +134,14 @@ def correct_syntax(lines):
         if not line_stripped:
             corrected_lines.append(line)
             continue
-        
-        # Check for multi-word keywords first
-        keyword_found = False
-        for keyword in valid_keywords:
-            if line_stripped.startswith(keyword):
-                corrected_lines.append(line)
-                keyword_found = True
-                break
-        
-        if not keyword_found:
-            # Handle single-word keywords
-            first_word = line_stripped.split()[0] if line_stripped.split() else ''
-            if first_word not in valid_keywords:
-                closest_matches = difflib.get_close_matches(first_word, valid_keywords, n=1, cutoff=0.8)
-                if closest_matches:
-                    corrected_line = closest_matches[0] + line_stripped[len(first_word):]
-                    corrected_lines.append(corrected_line)
-                else:
-                    corrected_lines.append(line)
-            else:
-                corrected_lines.append(line)
+        keyword = line_stripped.split()[0]
+        if keyword not in valid_keywords:
+            closest_matches = difflib.get_close_matches(keyword, valid_keywords, n=1, cutoff=0.8)
+            if closest_matches:
+                corrected_line = closest_matches[0] + line_stripped[len(keyword):]
+                corrected_lines.append(corrected_line)
+        else:
+            corrected_lines.append(line)
     return corrected_lines
 
 
