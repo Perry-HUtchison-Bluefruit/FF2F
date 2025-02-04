@@ -4,7 +4,7 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 
 ## Overview
 
-`Gherkin2Fibery.py` is a Python script that parses Gherkin feature files and converts their content into a CSV format. This tool extracts features, scenarios, and steps from Gherkin files and organises them into a structured CSV file ready to be uploaded to Fibery.
+`FF2F.py` is a Python script that parses Gherkin feature files and converts their content into a CSV format. This tool extracts features, scenarios, and steps from Gherkin files and organises them into a structured CSV file ready to be uploaded to Fibery.
 
 ## Features
 
@@ -14,6 +14,9 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 - Generates a CSV file with the extracted data.
 - Checks the formatting of the feature file and reports any formatting errors.
 - Corrects common syntax errors in the Gherkin file before appending to the CSV.
+- `Parser` class handles parsing of feature files.
+- `Corrector` class handles syntax correction.
+- `CSVWriter` class handles writing data to CSV.
 
 ## Usage
 
@@ -23,13 +26,13 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 
 ### Running the Script
 
-1. Place your Gherkin feature file in the same directory as `Gherkin2Fibery.py` or provide the full path to the feature file.
+1. Place your Gherkin feature file in the same directory as `FF2F.py` or provide the full path to the feature file.
 2. Open a terminal or command prompt.
-3. Navigate to the directory containing `Gherkin2Fibery.py`.
+3. Navigate to the directory containing `FF2F.py`.
 4. Run the script with the following command:
 
    ```sh
-   python Gherkin2Fibery.py <feature_file_path>
+   python FF2F.py <feature_file_path>
 
 ## Example output file
 
