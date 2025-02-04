@@ -107,25 +107,6 @@ def write_features_and_steps(writer, data):
             writer.writerow(['', '', ''])
 
 
-def check_formatting(file_path):
-    with open(file_path, 'r') as file:
-        lines = file.readlines()
-
-    errors = []
-    for i, line in enumerate(lines):
-        line = line.strip()
-        if not any(line.startswith(keyword) for keyword in
-                   ['Feature:', ' ', '', '@', 'Scenario:',
-                    'Scenario Outline:', 'Developer Task:', 'Given', 'And',
-                    'When', 'Then', 'Examples', '|']):
-            errors.append(f"Formatting error on line {i + 1}: {line}")
-
-    if errors:
-        return "\n".join(errors)
-    else:
-        return "Formatting Ok"
-
-
 def correct_syntax(lines):
     valid_keywords = ['Feature:', 'Scenario:', 'Scenario Outline:', 'Given', 'When', 'Then', 'And', 'Examples', '|']
     corrected_lines = []
