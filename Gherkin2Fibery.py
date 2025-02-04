@@ -112,7 +112,7 @@ def check_formatting(file_path):
         if not any(line.startswith(keyword) for keyword in
                    ['Feature:', ' ', '', '@', 'Scenario:',
                     'Scenario Outline:', 'Developer Task:', 'Given', 'And',
-                    'When', 'Then']):
+                    'When', 'Then', 'Examples', '|']):
             errors.append(f"Formatting error on line {i + 1}: {line}")
 
     if errors:
