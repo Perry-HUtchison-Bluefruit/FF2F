@@ -34,4 +34,7 @@ class Corrector:
 
     def handle_invalid_syntax(self, line_number, line):
         print(f"Invalid Gherkin syntax at line {line_number}: {line}")
-        return self.correct_syntax([line])[0]
+        corrected_line = self.correct_syntax([line])[0]
+        if corrected_line != line:
+            print(f"Corrected Gherkin syntax at line {line_number}: {corrected_line}")
+        return corrected_line

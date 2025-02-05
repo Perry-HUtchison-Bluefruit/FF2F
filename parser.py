@@ -36,7 +36,6 @@ class Parser:
                 corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
                 if corrected_line:
                     data[line_number - 1] = corrected_line
-                    return self.extract_features(data)
         return features
 
     def process_feature_line(self, features, current_feature, current_scenario, line):
@@ -54,6 +53,7 @@ class Parser:
     def check_scenario_outline(self, data, line_number):
         examples_found = False
         example_lines = 0
+        invalid_scenario_outlines = []
         for line in data[line_number:]:
             if line.startswith('Examples:'):
                 examples_found = True
@@ -63,5 +63,7 @@ class Parser:
                 break
 
         if not examples_found or example_lines < 3:
-            print(f"Error: 'Scenario Outline:' at line {line_number} is not followed by 'Examples:' and at least three lines starting with '|'")
-            exit(1)
+            invalid_scenario_outlines.append(line_number)
+
+        if invalid_scenario_outlines:
+            print(f"Error: 'Scenario Outline:' at lines {invalid_scenario_outlines} are not followed by 'Examples:' and at least three lines starting with '|'")
