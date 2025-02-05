@@ -40,6 +40,8 @@ class Parser:
                 corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
                 if corrected_line:
                     data[line_number - 1] = corrected_line
+                    if current_feature and current_scenario:
+                        features.append([current_feature, current_scenario, corrected_line])
         return features
 
     def process_feature_line(self, features, current_feature, current_scenario, line):
