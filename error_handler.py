@@ -3,11 +3,12 @@ class ErrorHandler:
         self.errors = []
 
     def add_error(self, line_number, severity, message):
-        self.errors.append({
-            'line_number': line_number,
-            'severity': severity,
-            'message': message
-        })
+        if not any(error['line_number'] == line_number and error['message'] == message for error in self.errors):
+            self.errors.append({
+                'line_number': line_number,
+                'severity': severity,
+                'message': message
+            })
 
     def get_errors(self):
         return self.errors
