@@ -1,8 +1,8 @@
 import difflib
 
 class Corrector:
-    def __init__(self):
-        self.valid_keywords = ['Feature:', 'Scenario:', 'Scenario Outline:', 'Given', 'When', 'Then', 'And', 'Examples', '|']
+    def __init__(self, keywords):
+        self.valid_keywords = keywords
 
     def correct_syntax(self, lines):
         corrected_lines = []

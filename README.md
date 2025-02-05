@@ -17,6 +17,7 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 - `Parser` class handles parsing of feature files.
 - `Corrector` class handles syntax correction.
 - `CSVWriter` class handles writing data to CSV.
+- `Config` class handles keyword configuration.
 
 ## Usage
 
@@ -33,6 +34,11 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 
    ```sh
    python FF2F.py <feature_file_path>
+   ```
+
+### Configuration
+
+The script uses a `Config` class to manage keywords used in parsing. You can modify the keywords by editing the `Config` class in `config.py`.
 
 ## Example output file
 
