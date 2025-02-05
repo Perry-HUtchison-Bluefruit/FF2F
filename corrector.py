@@ -1,10 +1,12 @@
 import difflib
 from error_handler import ErrorHandler
+from validator import Validator
 
 class Corrector:
     def __init__(self, keywords, error_handler):
         self.valid_keywords = keywords
         self.error_handler = error_handler
+        self.validator = Validator(keywords, error_handler)
 
     def correct_syntax(self, lines):
         corrected_lines = []
@@ -40,3 +42,6 @@ class Corrector:
         if corrected_line != line:
             self.error_handler.add_error(line_number, 'warning', f"Corrected Gherkin syntax: {corrected_line}")
         return corrected_line
+
+    def validate_syntax(self, lines):
+        self.validator.validate_syntax(lines)
