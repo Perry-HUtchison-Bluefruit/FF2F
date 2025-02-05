@@ -28,6 +28,8 @@ class Parser:
                   line.startswith('Developer Task:')):
                 current_scenario = line.strip()
                 features = self.process_feature_line(features, current_feature, current_scenario, line)
+                if line.startswith('Scenario Outline:'):
+                    self.check_scenario_outline(data, line_number)
             elif any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', 'Examples', '|']):
                 features = self.process_scenario_line(features, current_feature, current_scenario, line)
             elif line:
@@ -48,3 +50,18 @@ class Parser:
         if current_feature and current_scenario:
             features.append([current_feature, current_scenario, line])
         return features
+
+    def check_scenario_outline(self, data, line_number):
+        examples_found = False
+        example_lines = 0
+        for line in data[line_number:]:
+            if line.startswith('Examples:'):
+                examples_found = True
+            elif examples_found and line.startswith('|'):
+                example_lines += 1
+            elif examples_found and not line.startswith('|'):
+                break
+
+        if not examples_found or example_lines < 3:
+            print(f"Error: 'Scenario Outline:' at line {line_number} is not followed by 'Examples:' and at least three lines starting with '|'")
+            exit(1)
