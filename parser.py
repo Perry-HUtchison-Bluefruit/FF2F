@@ -17,44 +17,25 @@ class Parser:
         features = []
         current_feature = None
         current_scenario = None
-        state = 'initial'
-        
         for line_number, line in enumerate(data, start=1):
             line = line.lstrip()
             line = line.rstrip()
-            
-            if state == 'initial':
-                if line.startswith('Feature:'):
-                    current_feature = line[len('Feature:'):].strip()
-                    current_scenario = None
-                    state = 'feature'
-                elif line:
-                    corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
-                    if corrected_line:
-                        data[line_number - 1] = corrected_line
-            
-            elif state == 'feature':
-                if line.startswith('Scenario:') or line.startswith('Scenario Outline:') or line.startswith('Developer Task:'):
-                    current_scenario = line.strip()
-                    features = self.process_feature_line(features, current_feature, current_scenario, line)
-                    if line.startswith('Scenario Outline:'):
-                        self.check_scenario_outline(data, line_number)
-                    state = 'scenario'
-                elif line:
-                    corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
-                    if corrected_line:
-                        data[line_number - 1] = corrected_line
-            
-            elif state == 'scenario':
-                if any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', 'Examples', '|']):
-                    features = self.process_scenario_line(features, current_feature, current_scenario, line)
-                elif line:
-                    corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
-                    if corrected_line:
-                        data[line_number - 1] = corrected_line
-                else:
-                    state = 'initial'
-        
+            if line.startswith('Feature:'):
+                current_feature = line[len('Feature:'):].strip()
+                current_scenario = None
+            elif (line.startswith('Scenario:') or
+                  line.startswith('Scenario Outline:') or
+                  line.startswith('Developer Task:')):
+                current_scenario = line.strip()
+                features = self.process_feature_line(features, current_feature, current_scenario, line)
+                if line.startswith('Scenario Outline:'):
+                    self.check_scenario_outline(data, line_number)
+            elif any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', 'Examples', '|']):
+                features = self.process_scenario_line(features, current_feature, current_scenario, line)
+            elif line:
+                corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
+                if corrected_line:
+                    data[line_number - 1] = corrected_line
         return features
 
     def process_feature_line(self, features, current_feature, current_scenario, line):
