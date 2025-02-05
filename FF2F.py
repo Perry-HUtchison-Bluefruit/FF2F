@@ -3,6 +3,7 @@ import os
 from parser import Parser
 from corrector import Corrector
 from csv_writer import CSVWriter
+from config import Config
 
 def main():
     if len(sys.argv) != 2:
@@ -18,8 +19,14 @@ def main():
         output_csv_path = f"{base_name}_{counter}.csv"
         counter += 1
 
-    parser = Parser()
-    feature_data = parser.parse_feature_file(feature_file_path)
+    with open(feature_file_path, 'r') as file:
+        file_content = file.read()
+
+    config = Config()
+    keywords = config.get_keywords()
+
+    parser = Parser(keywords)
+    feature_data = parser.parse_feature_file(file_content)
 
     csv_writer = CSVWriter()
     csv_writer.write_to_csv(feature_data, output_csv_path)

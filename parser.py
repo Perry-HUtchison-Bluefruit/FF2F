@@ -2,12 +2,11 @@ import difflib
 from corrector import Corrector
 
 class Parser:
-    def __init__(self):
-        self.corrector = Corrector()
+    def __init__(self, keywords):
+        self.corrector = Corrector(keywords)
 
-    def parse_feature_file(self, file_path):
-        with open(file_path, 'r') as file:
-            lines = file.readlines()
+    def parse_feature_file(self, file_content):
+        lines = file_content.splitlines()
 
         corrected_lines = self.corrector.correct_syntax(lines)
         features = self.extract_features(corrected_lines)
