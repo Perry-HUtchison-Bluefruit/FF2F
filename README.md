@@ -14,7 +14,7 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 - Generates a CSV file with the extracted data.
 - Checks the formatting of the feature file and reports any formatting errors.
 - Corrects common syntax errors in the Gherkin file before appending to the CSV.
-- `Parser` class handles parsing of feature files.
+- `Parser` class handles parsing of feature files using a state machine approach.
 - `Corrector` class handles syntax correction.
 - `CSVWriter` class handles writing data to CSV.
 - `Config` class handles keyword configuration.
