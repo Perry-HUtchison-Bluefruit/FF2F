@@ -1,11 +1,13 @@
 import difflib
 from validator import Validator
 from error_handler import ErrorHandler
+from corrector import Corrector
 
 class Parser:
     def __init__(self, keywords, error_handler):
         self.validator = Validator(keywords, error_handler)
         self.error_handler = error_handler
+        self.corrector = Corrector(keywords, error_handler)
 
     def parse_feature_file(self, file_content):
         lines = file_content.splitlines()
