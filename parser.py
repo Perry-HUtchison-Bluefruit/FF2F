@@ -1,9 +1,11 @@
 import difflib
 from corrector import Corrector
+from error_handler import ErrorHandler
 
 class Parser:
-    def __init__(self, keywords):
-        self.corrector = Corrector(keywords)
+    def __init__(self, keywords, error_handler):
+        self.corrector = Corrector(keywords, error_handler)
+        self.error_handler = error_handler
 
     def parse_feature_file(self, file_content):
         lines = file_content.splitlines()
@@ -66,4 +68,5 @@ class Parser:
             invalid_scenario_outlines.append(line_number)
 
         if invalid_scenario_outlines:
-            print(f"Error: 'Scenario Outline:' at lines {invalid_scenario_outlines} are not followed by 'Examples:' and at least three lines starting with '|'")
+            for invalid_line in invalid_scenario_outlines:
+                self.error_handler.add_error(invalid_line, 'error', "'Scenario Outline:' is not followed by 'Examples:' and at least three lines starting with '|'")

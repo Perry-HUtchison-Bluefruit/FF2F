@@ -4,6 +4,7 @@ from parser import Parser
 from corrector import Corrector
 from csv_writer import CSVWriter
 from config import Config
+from error_handler import ErrorHandler
 
 def main():
     if len(sys.argv) != 2:
@@ -25,11 +26,14 @@ def main():
     config = Config()
     keywords = config.get_keywords()
 
-    parser = Parser(keywords)
+    error_handler = ErrorHandler()
+    parser = Parser(keywords, error_handler)
     feature_data = parser.parse_feature_file(file_content)
 
     csv_writer = CSVWriter()
     csv_writer.write_to_csv(feature_data, output_csv_path)
+
+    error_handler.print_errors()
 
     print(f"Successfully converted Gherkin file to CSV: {output_csv_path}")
 
