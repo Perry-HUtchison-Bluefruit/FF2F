@@ -1,7 +1,6 @@
 import sys
 import os
 from parser import Parser
-from validator import Validator
 from csv_writer import CSVWriter
 from config import Config
 from error_handler import ErrorHandler
@@ -27,7 +26,6 @@ def main():
     keywords = config.get_keywords()
 
     error_handler = ErrorHandler()
-    validator = Validator(keywords, error_handler)
     parser = Parser(keywords, error_handler)
     feature_data = parser.parse_feature_file(file_content)
 
