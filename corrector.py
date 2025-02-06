@@ -44,3 +44,8 @@ class Corrector:
 
     def validate_syntax(self, lines):
         self.validator.validate_syntax(lines)
+
+    def correct_scenario_title(self, line):
+        if line.startswith('Scenario:') or line.startswith('Scenario Outline:'):
+            return line.strip()
+        return line
