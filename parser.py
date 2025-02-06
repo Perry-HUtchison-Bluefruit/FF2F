@@ -1,15 +1,18 @@
 import difflib
+import logging
 from validator import Validator
 from error_handler import ErrorHandler
 from corrector import Corrector
 
 class Parser:
     def __init__(self, keywords, error_handler):
+        logging.debug("Initializing Parser class")
         self.validator = Validator(keywords, error_handler)
         self.error_handler = error_handler
         self.corrector = Corrector(keywords, error_handler)
 
     def parse_feature_file(self, file_content):
+        logging.debug("Parsing feature file")
         lines = file_content.splitlines()
 
         self.validator.validate_syntax(lines)
@@ -18,6 +21,7 @@ class Parser:
         return features
 
     def extract_features(self, data):
+        logging.debug("Extracting features from data")
         features = []
         current_feature = None
         current_scenario = None
@@ -45,6 +49,7 @@ class Parser:
         return features
 
     def process_feature_line(self, features, current_feature, current_scenario, line):
+        logging.debug(f"Processing feature line: {line}")
         if current_feature and not any(f[0] == current_feature for f in features):
             features.append([current_feature, '', ''])
         if current_feature and current_scenario:
@@ -52,11 +57,13 @@ class Parser:
         return features
 
     def process_scenario_line(self, features, current_feature, current_scenario, line):
+        logging.debug(f"Processing scenario line: {line}")
         if current_feature and current_scenario:
             features.append([current_feature, current_scenario, line])
         return features
 
     def check_scenario_outline(self, data, line_number):
+        logging.debug(f"Checking scenario outline at line {line_number}")
         examples_found = False
         example_lines = 0
         invalid_scenario_outlines = []

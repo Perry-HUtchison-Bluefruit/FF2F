@@ -1,11 +1,14 @@
 import csv
 from collections import OrderedDict
+import logging
 
 class CSVWriter:
     def __init__(self):
+        logging.debug("Initializing CSVWriter class")
         pass
 
     def write_to_csv(self, data, output_file):
+        logging.debug(f"Writing data to CSV file: {output_file}")
         with open(output_file, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['Scenarios'])
@@ -15,6 +18,7 @@ class CSVWriter:
             self.write_features_and_steps(writer, data)
 
     def extract_scenarios(self, data):
+        logging.debug("Extracting scenarios from data")
         seen = OrderedDict()
         scenarios = []
         for row in data:
@@ -25,10 +29,12 @@ class CSVWriter:
         return scenarios
 
     def write_scenarios(self, writer, scenarios):
+        logging.debug("Writing scenarios to CSV")
         for scenario in scenarios:
             writer.writerow([scenario])
 
     def write_features_and_steps(self, writer, data):
+        logging.debug("Writing features and steps to CSV")
         last_feature = None
         last_scenario = None
 
