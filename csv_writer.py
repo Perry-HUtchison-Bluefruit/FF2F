@@ -26,7 +26,7 @@ class CSVWriter:
 
     def write_scenarios(self, writer, scenarios):
         for scenario in scenarios:
-            writer.writerow(['', scenario, ''])
+            writer.writerow([scenario])
 
     def write_features_and_steps(self, writer, data):
         last_feature = None
