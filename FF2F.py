@@ -5,8 +5,10 @@ from validator import Validator
 from csv_writer import CSVWriter
 from config import Config
 from error_handler import ErrorHandler
+import logging
 
 def main():
+    logging.debug("Starting main function")
     if len(sys.argv) != 2:
         print("Usage: python FF2F.py <feature_file_path>")
         sys.exit(1)

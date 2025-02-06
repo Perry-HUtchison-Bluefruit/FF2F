@@ -1,11 +1,14 @@
 from error_handler import ErrorHandler
+import logging
 
 class Validator:
     def __init__(self, keywords, error_handler):
+        logging.debug("Initializing Validator class")
         self.valid_keywords = keywords
         self.error_handler = error_handler
 
     def validate_syntax(self, lines):
+        logging.debug("Validating syntax")
         for line_number, line in enumerate(lines, start=1):
             line_stripped = line.strip()
             if not line_stripped:
