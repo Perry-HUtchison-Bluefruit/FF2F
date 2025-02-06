@@ -30,7 +30,7 @@ class Parser:
             elif (line.startswith('Scenario:') or
                   line.startswith('Scenario Outline:') or
                   line.startswith('Developer Task:')):
-                current_scenario = self.corrector.correct_scenario_title(line.strip())
+                current_scenario = line.strip()
                 features = self.process_feature_line(features, current_feature, current_scenario, line)
                 if line.startswith('Scenario Outline:'):
                     self.check_scenario_outline(data, line_number)
