@@ -32,7 +32,7 @@ class CSVWriter:
         last_feature = None
         last_scenario = None
 
-        for feature, scenario, step in data:
+        for i, (feature, scenario, step) in enumerate(data):
             if feature == last_feature:
                 feature = ''
             else:
@@ -44,3 +44,8 @@ class CSVWriter:
                 last_scenario = scenario
 
             writer.writerow([feature, scenario, step])
+
+            if i + 1 < len(data) and data[i + 1][1] != last_scenario:
+                writer.writerow(['', '', ''])
+            elif i + 1 == len(data):
+                writer.writerow(['', '', ''])
