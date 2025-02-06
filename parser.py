@@ -14,9 +14,11 @@ class Parser:
         features = []
         current_feature = None
         current_scenario = None
+        current_indentation = 0
         for line_number, line in enumerate(data, start=1):
-            line = line.lstrip()
-            line = line.rstrip()
+            stripped_line = line.lstrip()
+            current_indentation = len(line) - len(stripped_line)
+            line = stripped_line.rstrip()
             if line.startswith('Feature:'):
                 current_feature = line[len('Feature:'):].strip()
                 current_scenario = None
@@ -26,7 +28,7 @@ class Parser:
                 current_scenario = line.strip()
                 features = self.process_feature_line(features, current_feature, current_scenario, line)
             elif any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', 'Examples', '|']):
-                features = self.process_scenario_line(features, current_feature, current_scenario, line)
+                features = self.process_scenario_line(features, current_feature, current_scenario, line, current_indentation)
             elif line:
                 corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
                 if corrected_line:
@@ -42,7 +44,8 @@ class Parser:
             features.append([current_feature, current_scenario, ''])
         return features
 
-    def process_scenario_line(self, features, current_feature, current_scenario, line):
+    def process_scenario_line(self, features, current_feature, current_scenario, line, indentation):
         if current_feature and current_scenario:
-            features.append([current_feature, current_scenario, line])
+            indented_line = ',' * indentation + line
+            features.append([current_feature, current_scenario, indented_line])
         return features
