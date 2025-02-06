@@ -11,13 +11,5 @@ class Validator:
             if not line_stripped:
                 continue
 
-            # Check for multi-word keywords
-            keyword = None
-            for valid_keyword in self.valid_keywords:
-                if line_stripped.startswith(valid_keyword):
-                    keyword = valid_keyword
-                    break
-
-            if keyword is None:
-                # If no valid keyword is found, report an error
+            if not any(line_stripped.startswith(valid_keyword) for valid_keyword in self.valid_keywords):
                 self.error_handler.add_error(line_number, 'error', f"Invalid Gherkin syntax: {line}")

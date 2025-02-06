@@ -1,12 +1,10 @@
 import difflib
 from error_handler import ErrorHandler
-from validator import Validator
 
 class Corrector:
     def __init__(self, keywords, error_handler):
         self.valid_keywords = keywords
         self.error_handler = error_handler
-        self.validator = Validator(keywords, error_handler)
 
     def correct_syntax(self, lines):
         corrected_lines = []
