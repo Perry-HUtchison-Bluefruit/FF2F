@@ -40,7 +40,19 @@ class Parser:
                 features = self.process_scenario_line(features, current_feature, current_scenario, line)
             elif line:
                 corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
-                if corrected_line:
+                if corrected_line != line:
+                    # If the line was corrected, reprocess it as a new line
+                    if corrected_line.startswith('Scenario:') or corrected_line.startswith('Scenario Outline:') or corrected_line.startswith('Developer Task:'):
+                        current_scenario = corrected_line.strip()
+                        print(f"Processing corrected feature: {current_feature}, scenario: {current_scenario}")  # Debug statement
+                        features = self.process_feature_line(features, current_feature, current_scenario, corrected_line)
+                        if corrected_line.startswith('Scenario Outline:'):
+                            self.check_scenario_outline(data, line_number)
+                    else:
+                        data[line_number - 1] = corrected_line
+                        if current_feature and current_scenario:
+                            features.append([current_feature, current_scenario, corrected_line])
+                else:
                     data[line_number - 1] = corrected_line
                     if current_feature and current_scenario:
                         features.append([current_feature, current_scenario, corrected_line])
