@@ -5,6 +5,7 @@ from validator import Validator
 from csv_writer import CSVWriter
 from config import Config
 from error_handler import ErrorHandler
+from corrector import Corrector
 
 def main():
     if len(sys.argv) != 2:
@@ -27,6 +28,7 @@ def main():
     keywords = config.get_keywords()
 
     error_handler = ErrorHandler()
+    corrector = Corrector(keywords, error_handler)
     validator = Validator(keywords, error_handler)
     parser = Parser(keywords, error_handler)
     feature_data = parser.parse_feature_file(file_content)
