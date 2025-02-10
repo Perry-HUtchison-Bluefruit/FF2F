@@ -6,7 +6,6 @@ class CSVWriter:
         pass
 
     def write_to_csv(self, data, output_file):
-        print(f"Writing to CSV file: {output_file}")  # Debug statement
         with open(output_file, 'w', newline='') as file:
             writer = csv.writer(file)
             writer.writerow(['Scenarios'])
@@ -23,12 +22,10 @@ class CSVWriter:
             if scenario and scenario not in seen:
                 scenarios.append(scenario)
                 seen[scenario] = None
-        print(f"Extracted scenarios: {scenarios}")  # Debug statement
         return scenarios
 
     def write_scenarios(self, writer, scenarios):
         for scenario in scenarios:
-            print(f"Writing scenario: {scenario}")  # Debug statement
             writer.writerow([scenario])
 
     def write_features_and_steps(self, writer, data):
@@ -46,7 +43,6 @@ class CSVWriter:
             else:
                 last_scenario = scenario
 
-            print(f"Writing feature: {feature}, scenario: {scenario}, step: {step}")  # Debug statement
             writer.writerow([feature, scenario, step])
 
             if i + 1 < len(data) and data[i + 1][1] != last_scenario:

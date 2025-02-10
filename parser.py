@@ -11,7 +11,6 @@ class Parser:
 
     def parse_feature_file(self, file_content):
         lines = file_content.splitlines()
-        print(f"Parsing {len(lines)} lines")  # Debug statement
 
         self.validator.validate_syntax(lines)
         features = self.extract_features(lines)
@@ -32,7 +31,6 @@ class Parser:
                   line.startswith('Scenario Outline:') or
                   line.startswith('Developer Task:')):
                 current_scenario = line.strip()
-                print(f"Processing feature: {current_feature}, scenario: {current_scenario}")  # Debug statement
                 features = self.process_feature_line(features, current_feature, current_scenario, line)
                 if line.startswith('Scenario Outline:'):
                     self.check_scenario_outline(data, line_number)
@@ -44,7 +42,6 @@ class Parser:
                     # If the line was corrected, reprocess it as a new line
                     if corrected_line.startswith('Scenario:') or corrected_line.startswith('Scenario Outline:') or corrected_line.startswith('Developer Task:'):
                         current_scenario = corrected_line.strip()
-                        print(f"Processing corrected feature: {current_feature}, scenario: {current_scenario}")  # Debug statement
                         features = self.process_feature_line(features, current_feature, current_scenario, corrected_line)
                         if corrected_line.startswith('Scenario Outline:'):
                             self.check_scenario_outline(data, line_number)
@@ -62,13 +59,11 @@ class Parser:
         if current_feature and not any(f[0] == current_feature for f in features):
             features.append([current_feature, '', ''])
         if current_feature and current_scenario:
-            print(f"Adding feature: {current_feature}, scenario: {current_scenario}")  # Debug statement
             features.append([current_feature, current_scenario, ''])
         return features
 
     def process_scenario_line(self, features, current_feature, current_scenario, line):
         if current_feature and current_scenario:
-            print(f"Adding feature: {current_feature}, scenario: {current_scenario}, step: {line}")  # Debug statement
             features.append([current_feature, current_scenario, line])
         return features
 
@@ -89,5 +84,4 @@ class Parser:
 
         if invalid_scenario_outlines:
             for invalid_line in invalid_scenario_outlines:
-                print(f"Invalid scenario outline at line {invalid_line}: {data[invalid_line - 1]}")  # Debug statement
                 self.error_handler.add_error(invalid_line, 'error', "'Scenario Outline:' is not followed by 'Examples:' and at least three lines starting with '|'")
