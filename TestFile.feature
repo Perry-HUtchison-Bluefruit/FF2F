@@ -82,6 +82,10 @@ Feature: feature 3
 
 Developer Task: task 2
 
+Devloper Tsk: task 4
+
+Devloper Tsk: task 5
+
 Scenario: scenario 11
 Giben step 33
 When step 34
