@@ -2,27 +2,25 @@ flowchart TD
     A[Start: Feature File] --> B{File Read}
     B --> |Read File| C[Config: Get Keywords]
     C --> D[Error Handler Initialized]
-    D --> E[Validator]
-    E --> |Initial Syntax Check| F[Corrector]
-    F --> |Attempt Syntax Correction| G[Parser]
-    G --> |Extract Features\nScenarios\nSteps| H[CSV Writer]
-    H --> |Generate CSV| I[Output CSV File]
-    H --> J[Error Reporting]
+    D --> E[Corrector]
+    E --> |Attempt Syntax Correction| F[Parser]
+    F --> |Extract Features\nScenarios\nSteps| G[CSV Writer]
+    G --> |Generate CSV| H[Output CSV File]
+    G --> I[Error Reporting]
     
     %% Error Handling Paths
-    E --> |Report Syntax Errors| J
-    F --> |Report Correction Attempts| J
-    G --> |Report Parsing Errors| J
+    E --> |Report Correction Attempts| I
+    F --> |Report Parsing Errors| I
     
     %% Decision Points
-    F --> |If Correction Possible| G
-    F --> |If No Correction| J
+    E --> |If Correction Possible| F
+    E --> |If No Correction| I
     
     %% Final Outputs
-    I --> K[End: CSV Generated]
-    J --> K
+    H --> J[End: CSV Generated]
+    I --> J
     
     %% Styling
     style A fill:#f9f,stroke:#333,stroke-width:4px
-    style K fill:#bbf,stroke:#333,stroke-width:4px
-    style J fill:#ff9,stroke:#333,stroke-width:2px
+    style J fill:#bbf,stroke:#333,stroke-width:4px
+    style I fill:#ff9,stroke:#333,stroke-width:2px
