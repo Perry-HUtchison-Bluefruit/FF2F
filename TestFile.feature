@@ -80,11 +80,11 @@ Developer Task: task 1
 
 Feature: feature 3
 
-Developer Task: task 2
+developer task: task 2
+
+Devloper Tsk: task 3
 
 Devloper Tsk: task 4
-
-Devloper Tsk: task 5
 
 Scenario: scenario 11
 Giben step 33
