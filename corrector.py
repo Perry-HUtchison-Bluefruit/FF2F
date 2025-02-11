@@ -1,5 +1,4 @@
 import difflib
-from error_handler import ErrorHandler
 
 class Corrector:
     def __init__(self, keywords, error_handler):
