@@ -14,10 +14,11 @@ def main():
     base_name = os.path.splitext(os.path.basename(feature_file_path))[0]
     output_csv_path = f"{base_name}.csv"
 
-    counter = 1
-    while os.path.exists(output_csv_path):
-        output_csv_path = f"{base_name}_{counter}.csv"
-        counter += 1
+    if os.path.exists(output_csv_path):
+        counter = 1
+        while os.path.exists(output_csv_path):
+            output_csv_path = f"{base_name}_{counter}.csv"
+            counter += 1
 
     with open(feature_file_path, 'r') as file:
         file_content = file.read()

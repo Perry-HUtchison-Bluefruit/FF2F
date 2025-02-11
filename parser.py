@@ -18,8 +18,7 @@ class Parser:
         current_feature = None
         current_scenario = None
         for line_number, line in enumerate(data, start=1):
-            line = line.lstrip()
-            line = line.rstrip()
+            line = line.strip()
             if line.startswith('Feature:'):
                 current_feature = line[len('Feature:'):].strip()
                 current_scenario = None
@@ -42,7 +41,6 @@ class Parser:
                         if current_feature and current_scenario:
                             features.append([current_feature, current_scenario, corrected_line])
                 else:
-                    data[line_number - 1] = corrected_line
                     if current_feature and current_scenario:
                         features.append([current_feature, current_scenario, corrected_line])
         return features
