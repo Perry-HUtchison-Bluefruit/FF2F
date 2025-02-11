@@ -21,14 +21,25 @@ class Corrector:
                     break
 
             if keyword is None:
-                # If no valid keyword is found, attempt to correct the first word
-                first_word = line_stripped.split()[0]
-                closest_matches = difflib.get_close_matches(first_word, self.valid_keywords, n=1, cutoff=0.8)
+                words = line_stripped.split()
+                if len(words) > 1:
+                    first_word, second_word = words[0], words[1]
+                else:
+                    first_word, second_word = words[0], ''
+
+                # If no valid keyword is found, attempt to correct the first two words first and remove the rest of the line
+                closest_matches = difflib.get_close_matches(first_word + ' ' + second_word, self.valid_keywords, n=1, cutoff=0.8)
                 if closest_matches:
-                    corrected_line = closest_matches[0] + line_stripped[len(first_word):]
+                    corrected_line = closest_matches[0] + line_stripped[len(first_word + ' ' + second_word):]
                     corrected_lines.append(corrected_line)
                 else:
-                    corrected_lines.append(line)
+                    # If no valid keyword is found, attempt to correct the first word
+                    closest_matches = difflib.get_close_matches(first_word, self.valid_keywords, n=1, cutoff=0.8)
+                    if closest_matches:
+                        corrected_line = closest_matches[0] + line_stripped[len(first_word):]
+                        corrected_lines.append(corrected_line)
+                    else:
+                        corrected_lines.append(line)
             else:
                 corrected_lines.append(line)
         return corrected_lines
