@@ -57,37 +57,24 @@ When step 22
 Then step 23
 
 Scenario Outline: Valid scenario outline with three example lines: scenario 9
-Given step 24 <column 1>
-When step 25
-Then step 26
-Examples:
-| column 1 |
-| value 1  |
-| value 2  |
+  Given step 24 <column 1>
+  When step 25
+  Then step 26
+  Examples:
+    | column 1 |
+    | value 1  |
+    | value 2  |
 
 
 Scenario Outline: Invalid scenario outline with less than three example lines: scenario 10
 Given step 27 <column 1>
 When step 28
 Then step 29
-Examples:
-| column 1 |
-| value 1  |
+    Examples:
+    | column 1 |
+    | value 1  |
 
 Feature: feature 2
-
-Scenario: scenario 9
-Given step 24
-And step 25
-When step 26
-Then step 27
-
-Scenario: scenario 10
-Given step 28
-And step 29
-When step 30
-Then step 31
-And step 32
 
 Developer Task: task 1
 
