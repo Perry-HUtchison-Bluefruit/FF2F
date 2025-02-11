@@ -41,6 +41,9 @@ class CSVWriter:
             if scenario == last_scenario:
                 scenario = ''
             else:
+                if last_scenario is not None:
+                    # Add a blank row before a new scenario
+                    writer.writerow([])
                 last_scenario = scenario
 
             writer.writerow([feature, scenario, step])
