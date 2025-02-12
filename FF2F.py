@@ -31,7 +31,6 @@ def main():
     is_valid, validation_error = validator.validate()
     if not is_valid:
         print(f"Validation Error: {validation_error}")
-        sys.exit(1)
 
     config = Config()
     keywords = config.get_keywords()
