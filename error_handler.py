@@ -14,4 +14,4 @@ class ErrorHandler:
 
     def print_errors(self):
         for error in self.errors:
-            print(f"[{error['severity'].upper()}] Line {error['line_number']}: {error['message']}")
+            print(f"[{error['severity'].upper():<8}] Line {error['line_number']:<4}: {error['message']}")
