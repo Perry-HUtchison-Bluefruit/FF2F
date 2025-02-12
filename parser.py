@@ -17,26 +17,17 @@ class Parser:
         features = []
         current_feature = None
         current_scenario = None
-        scenario_outline_detected = False
         for line_number, line in enumerate(data, start=1):
             line = line.strip()
             if line.startswith('Feature:'):
                 current_feature = line[len('Feature:'):].strip()
                 current_scenario = None
-                scenario_outline_detected = False
-            elif line.startswith('Scenario Outline:'):
-                current_scenario = line.strip()
-                scenario_outline_detected = True
-                features = self.process_feature_line(features, current_feature, current_scenario, line)
-            elif line.startswith('Examples:'):
-                scenario_outline_detected = False
-                features = self.process_scenario_line(features, current_feature, current_scenario, line)
             elif (line.startswith('Scenario:') or
+                  line.startswith('Scenario Outline:') or
                   line.startswith('Developer Task:')):
                 current_scenario = line.strip()
-                scenario_outline_detected = False
                 features = self.process_feature_line(features, current_feature, current_scenario, line)
-            elif any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', '|']):
+            elif any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', 'Examples', '|']):
                 features = self.process_scenario_line(features, current_feature, current_scenario, line)
             elif line:
                 corrected_line = self.corrector.handle_invalid_syntax(line_number, line)
@@ -52,9 +43,6 @@ class Parser:
                 else:
                     if current_feature and current_scenario:
                         features.append([current_feature, current_scenario, corrected_line])
-            if scenario_outline_detected and not line.startswith('Examples:') and not any(line.startswith(keyword) for keyword in ['Given', 'When', 'Then', 'And', '|']):
-                self.error_handler.add_error(line_number, 'error', f"Missing examples table after 'Scenario Outline:' at line {line_number}")
-                scenario_outline_detected = False
         return features
 
     def process_feature_line(self, features, current_feature, current_scenario, line):
