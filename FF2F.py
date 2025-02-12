@@ -4,6 +4,7 @@ from parser import Parser
 from csv_writer import CSVWriter
 from config import Config
 from error_handler import ErrorHandler
+import input_validator
 
 def main():
     if len(sys.argv) != 2:
@@ -22,6 +23,16 @@ def main():
         while os.path.exists(output_csv_path):
             output_csv_path = os.path.join("GeneratedCSV", f"{base_name}_{counter}.csv")
             counter += 1
+
+    is_readable, message = input_validator.is_file_readable(feature_file_path)
+    if not is_readable:
+        print(message)
+        sys.exit(1)
+
+    is_valid, message = input_validator.is_valid_gherkin_file(feature_file_path)
+    if not is_valid:
+        print(message)
+        sys.exit(1)
 
     with open(feature_file_path, 'r') as file:
         file_content = file.read()
