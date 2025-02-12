@@ -79,3 +79,22 @@ feature 1,,
 ,,Then step 41
 ,,And step 42
 ,,
+   ```
+
+## Data Flow Diagram
+
+The `data-flow-diagram.mermaid` file provides a visual representation of the data flow within the FF2F tool. It illustrates the process from reading the feature file to generating the output CSV file, including error handling paths.
+
+## Error Handling
+
+The `ErrorHandler` class in `error_handler.py` is responsible for managing errors encountered during the parsing and correction process. It collects errors, categorizes them by severity, and provides methods to retrieve and print the errors.
+
+To handle errors reported by the `ErrorHandler` class, you can use the following methods:
+
+- `add_error(line_number, severity, message)`: Adds an error with the specified line number, severity, and message.
+- `get_errors()`: Returns a list of all collected errors.
+- `print_errors()`: Prints all collected errors to the console.
+
+## Example Input File
+
+The `TestFile.feature` file is an example input file that demonstrates various Gherkin syntax elements and scenarios. You can use this file to test the FF2F tool and see how it processes different types of Gherkin syntax.
