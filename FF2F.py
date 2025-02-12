@@ -12,12 +12,15 @@ def main():
 
     feature_file_path = sys.argv[1]
     base_name = os.path.splitext(os.path.basename(feature_file_path))[0]
-    output_csv_path = f"{base_name}.csv"
+    output_csv_path = os.path.join("GeneratedCSV", f"{base_name}.csv")
+
+    if not os.path.exists("GeneratedCSV"):
+        os.makedirs("GeneratedCSV")
 
     if os.path.exists(output_csv_path):
         counter = 1
         while os.path.exists(output_csv_path):
-            output_csv_path = f"{base_name}_{counter}.csv"
+            output_csv_path = os.path.join("GeneratedCSV", f"{base_name}_{counter}.csv")
             counter += 1
 
     with open(feature_file_path, 'r') as file:
