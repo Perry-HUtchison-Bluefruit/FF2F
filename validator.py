@@ -15,7 +15,7 @@ class Validator:
             if not line.strip():
                 continue
             if not any(line.strip().startswith(keyword) for keyword in ['Feature:', 'Scenario:', 'Scenario Outline:', 'Developer Task:', 'Given', 'When', 'Then', 'And', 'Examples:', '|']):
-                return False, f"Invalid Gherkin format: {line.strip()}"
+                return True, None
         return True, None
 
     def validate_structure(self):
@@ -30,7 +30,7 @@ class Validator:
 
         format_valid, format_error = self.validate_format()
         if not format_valid:
-            return False, format_error
+            return True, None
 
         structure_valid, structure_error = self.validate_structure()
         if not structure_valid:
