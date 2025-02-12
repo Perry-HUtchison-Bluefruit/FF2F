@@ -6,6 +6,8 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 
 `FF2F.py` is a Python script that parses Gherkin feature files and converts their content into a CSV format. This tool extracts features, scenarios, and steps from Gherkin files and organises them into a structured CSV file ready to be uploaded to Fibery.
 
+An input validation layer has been added to ensure that the feature file is properly encoded, formatted, and structured before parsing.
+
 ## Features
 
 - Parses Gherkin feature files to extract features, scenarios, and steps.
@@ -18,6 +20,22 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
 - `Corrector` class handles syntax correction.
 - `CSVWriter` class handles writing data to CSV.
 - `Config` class handles keyword configuration.
+- `Validator` class handles input validation for file encoding, format, and basic structure.
+
+## Validator Class
+
+The `Validator` class is responsible for validating the input feature file before it is parsed. It checks for the following:
+
+- UTF-8 encoding
+- Valid Gherkin format
+- Basic structure (presence of `Feature:` and `Scenario:` keywords)
+
+The `Validator` class provides the following methods:
+
+- `validate_encoding()`: Checks if the file is UTF-8 encoded.
+- `validate_format()`: Checks if the file has a valid Gherkin format.
+- `validate_structure()`: Checks if the file contains the required `Feature:` and `Scenario:` keywords.
+- `validate()`: Calls all validation methods and returns the results.
 
 ## Usage
 
@@ -35,6 +53,8 @@ A tool for extracting Test Cases, and Steps ready to be entered into Fibery
    ```sh
    python FF2F.py <feature_file_path>
    ```
+
+The script will first validate the input feature file. If the file is not valid, an error message will be displayed, and the script will exit. If the file is valid, the script will proceed to parse the file and generate the CSV output.
 
 ### Configuration
 

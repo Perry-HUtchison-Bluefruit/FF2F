@@ -4,6 +4,7 @@ from parser import Parser
 from csv_writer import CSVWriter
 from config import Config
 from error_handler import ErrorHandler
+from validator import Validator
 
 def main():
     if len(sys.argv) != 2:
@@ -25,6 +26,12 @@ def main():
 
     with open(feature_file_path, 'r') as file:
         file_content = file.read()
+
+    validator = Validator(file_content)
+    is_valid, validation_error = validator.validate()
+    if not is_valid:
+        print(f"Validation Error: {validation_error}")
+        sys.exit(1)
 
     config = Config()
     keywords = config.get_keywords()
