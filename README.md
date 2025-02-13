@@ -29,12 +29,14 @@ The `Validator` class is responsible for validating the input feature file befor
 - UTF-8 encoding
 - Valid Gherkin format
 - Basic structure (presence of `Feature:` and `Scenario:` keywords)
+- Gherkin syntax percentage (at least 80%)
 
 The `Validator` class provides the following methods:
 
 - `validate_encoding()`: Checks if the file is UTF-8 encoded.
 - `validate_format()`: Checks if the file has a valid Gherkin format.
 - `validate_structure()`: Checks if the file contains the required `Feature:` and `Scenario:` keywords.
+- `validate_gherkin_syntax_percentage()`: Checks if the percentage of Gherkin syntax is at least 80%.
 - `validate()`: Calls all validation methods and returns the results.
 
 ## Usage
