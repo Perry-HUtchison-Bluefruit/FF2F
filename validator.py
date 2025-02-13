@@ -23,6 +23,15 @@ class Validator:
             return False, "File does not contain required 'Feature:' or 'Scenario:' keywords."
         return True, None
 
+    def validate_gherkin_syntax_percentage(self):
+        lines = self.file_content.splitlines()
+        total_lines = len(lines)
+        gherkin_lines = sum(1 for line in lines if any(line.strip().startswith(keyword) for keyword in ['Feature:', 'Scenario:', 'Scenario Outline:', 'Developer Task:', 'Given', 'When', 'Then', 'And', 'Examples:', '|']))
+        gherkin_percentage = (gherkin_lines / total_lines) * 100
+        if gherkin_percentage < 80:
+            return False, f"Gherkin syntax percentage is less than 80%: {gherkin_percentage:.2f}%"
+        return True, None
+
     def validate(self):
         encoding_valid, encoding_error = self.validate_encoding()
         if not encoding_valid:
@@ -35,5 +44,9 @@ class Validator:
         structure_valid, structure_error = self.validate_structure()
         if not structure_valid:
             return False, structure_error
+
+        gherkin_valid, gherkin_error = self.validate_gherkin_syntax_percentage()
+        if not gherkin_valid:
+            return False, gherkin_error
 
         return True, None
